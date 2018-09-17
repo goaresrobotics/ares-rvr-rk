@@ -25,7 +25,7 @@ public class SampleJoystickTeleop extends OpMode {
         double speedRight = gamepad1.right_stick_y;
 
         motorLeft.setPower(speedLeft);
-        motorRight.setPower(speedRight);
+        motorRight.setPower(-speedLeft);
 
         telemetry.addData("joystickX", gamepad1.left_stick_x);
         telemetry.addData("joystickY", gamepad1.left_stick_y);
