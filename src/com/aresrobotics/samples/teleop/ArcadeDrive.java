@@ -5,19 +5,21 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class ArcadeDrive extends OpMode {
 
+    DcMotor motorRight;
+    DcMotor motorLeft;
+
     @Override
     public void init() {
 
-        DcMotor motorRight;
-        DcMotor motorLeft;
+        motorLeft = hardwareMap.dcMotor.get("motorLeft");
+        motorRight = hardwareMap.dcMotor.get("motorRight");
+
 
 
     }
 
     @Override
     public void loop() {
-        left = hardwareMap.dcMotor.get("motorLeft");
-        right = hardwareMap.dcMotor.get("motorRight");
 
         double v = -gamepad1.left_stick_y;
         double omega = -gamepad1.right_stick_x;
