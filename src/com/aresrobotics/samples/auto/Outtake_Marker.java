@@ -1,4 +1,4 @@
 package com.aresrobotics.samples.auto;
 
-public class BlueDepot64 {
+public class Outtake_Marker {
 }
