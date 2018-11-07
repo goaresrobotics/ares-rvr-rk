@@ -1,12 +1,15 @@
 package com.aresrobotics.samples.teleop;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+@TeleOp(name = "Drive")
 public class ArcadeDrive extends OpMode {
 
-    DcMotor motorRight;
-    DcMotor motorLeft;
+    private DcMotor motorRight;
+    private DcMotor motorLeft;
 
     @Override
     public void init() {
@@ -21,22 +24,14 @@ public class ArcadeDrive extends OpMode {
     @Override
     public void loop() {
 
-        double v = -gamepad1.left_stick_y;
-        double omega = -gamepad1.right_stick_x;
+        double v = gamepad1.right_stick_x;
+        double omega = -gamepad1.left_stick_y;
 
-        double left = v - omega;
-        double right = v + omega;
+        double right = v - omega;
+        double left = v + omega;
 
-        if (Math.abs(left) > 1 || Math.abs(right) > 1){
-            double max = Math.max(Math.abs(left), Math.abs(right));
-            left /= max;
-            right /= max;
-
-            motorRight.setPower(right);
-            motorLeft.setPower(left);
-
-        }
-
+        motorRight.setPower(right);
+        motorLeft.setPower(left);
 
     }
 
