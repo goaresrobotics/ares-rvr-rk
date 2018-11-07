@@ -5,17 +5,26 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-public class UltraSonicTest extends LinearOpMode
-{
+@TeleOp (name="UltraSonic Test")
+public class UltraSonicTest extends LinearOpMode {
 
-    MaxSonarEZ1UltrasonicSensor sonar =
-            new MaxSonarEZ1UltrasonicSensor(hardwareMap.analogInput.get("Ultrasonic"));
+private DistanceUnit unit;
 
     @Override
-    public void runOpMode()
-    {
-        // required to be here
+    public void runOpMode() {
+        MaxSonarEZ1UltrasonicSensor UltraSonic = new MaxSonarEZ1UltrasonicSensor(hardwareMap.analogInput.get("UltraSonic"));
+
+        telemetry.addLine("initialized");
+        telemetry.update();
+
+        waitForStart();
+        telemetry.clear();
+
+        while (!isStopRequested()) {
+            double unitIn = UltraSonic.getDistance(unit);
+            telemetry.addData("Distance", unitIn);
+        };
     }
 }
-

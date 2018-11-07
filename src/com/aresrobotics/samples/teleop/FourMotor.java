@@ -6,7 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @TeleOp(name = "4 Motors")
-public class FourMotor extends OpMode {
+public class FourMotor extends OpMode
+{
 
     DcMotor motor;
     DcMotor motor2;
