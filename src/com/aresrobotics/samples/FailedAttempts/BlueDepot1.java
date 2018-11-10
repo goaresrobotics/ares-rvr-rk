@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 @Autonomous(name="Depot Start", group="Autonomous")
+@Disabled
 public class BlueDepot1 extends LinearOpMode {
 
     HardwarePushbot robot = new HardwarePushbot();

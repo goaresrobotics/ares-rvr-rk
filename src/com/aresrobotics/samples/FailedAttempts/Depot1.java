@@ -1,12 +1,14 @@
-package com.aresrobotics.samples.auto;
+package com.aresrobotics.samples.FailedAttempts;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-@Autonomous(name= "Depot")
+@Autonomous(name= "Depot Trash")
+@Disabled
 public class Depot1 extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
