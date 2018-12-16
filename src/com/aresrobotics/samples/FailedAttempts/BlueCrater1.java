@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
-@Autonomous(name="Crater Start")
+@Autonomous(name="crater Start")
 @Disabled
 public class BlueCrater1 extends LinearOpMode {
 

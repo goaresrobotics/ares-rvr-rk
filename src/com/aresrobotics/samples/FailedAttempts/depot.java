@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @Autonomous(name= "Depot Trash")
 @Disabled
-public class Depot1 extends LinearOpMode {
+public class depot extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     DcMotor leftMotor;

@@ -16,13 +16,15 @@ public class ArcadeDrive extends OpMode {
     private DcMotor spinner;
     private DcMotor slides;
     private Servo intake;
-    //DigitalChannel touchMe;
-    //DigitalChannel touchMeToo;
+    private Servo markerRelease;
+    private DigitalChannel MLS;
 
     static final double INCREMENT   = 0.02;
     static final int    CYCLE_MS    =   50;
     static final double MAX_POS     =  1.0;
-    static final double MIN_POS     =  0.0;
+    static final double MIN_POS     =  0.173;
+
+    int bumperValue =0;
 
     double  position = MAX_POS;
 
@@ -43,41 +45,54 @@ public class ArcadeDrive extends OpMode {
         spinner = hardwareMap.dcMotor.get("spinner");
         slides = hardwareMap.dcMotor.get("slides");
         intake = hardwareMap.servo.get("intake");
-        //touchMe = hardwareMap.get(DigitalChannel.class, "touchMe");
-        //touchMeToo = hardwareMap.get(DigitalChannel.class, "touchMeToo");
-
+        markerRelease = hardwareMap.servo.get("markerRelease");
+        MLS = hardwareMap.get(DigitalChannel.class, "MLS");
+        markerRelease.setPosition(1);
         intake.setPosition(position);
+        MLS.setMode(DigitalChannel.Mode.INPUT);
 
-        //touchMe.setMode(DigitalChannel.Mode.INPUT);
-        //touchMeToo.setMode(DigitalChannel.Mode.INPUT);
     }
 
     @Override
     public void loop() {
 
+        if(gamepad1.left_bumper)
+        {
+
+            bumperValue = bumperValue+1;
+
+        }
+
         double v = gamepad1.right_stick_x;
         double omega = -gamepad1.left_stick_y;
 
-        double right = v - omega;
-        double left = v + omega;
+        double right = 0.0;
+        double left = 0.0;
+
+        if(bumperValue%2 == 0)
+        {
+            right = v - omega;
+            left = v + omega;
+        }
+
+        if(bumperValue%2 == 1)
+        {
+            right = (v - omega)/2;
+            left = (v + omega)/2;
+        }
 
         motorRight.setPower(right);
         motorLeft.setPower(left);
 
-        slides.setPower(gamepad2.left_stick_y/2);
+        slides.setPower(-gamepad2.left_stick_y/2);
 
-        /*if (touchMe.getState() == true) {
-            slides.setPower(-0.1); }
+        /*if (MLS.getState() == true) {
+            if ( > 0) }
             else {
-            slides.setPower(intakeSlide/15); }
+            slides.setPower(); }*/
 
 
-        if (touchMeToo.getState() == true) {
-            slides.setPower(0.1); }
-        else {
-            slides.setPower(intakeSlide/15); }*/
-
-
+// Servo Code
         if (gamepad2.left_bumper) {
             position += INCREMENT ;
             if (position >= MAX_POS ) {
