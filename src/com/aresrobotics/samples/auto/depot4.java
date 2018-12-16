@@ -57,19 +57,18 @@ public class depot4 extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        // Step through each leg of the path,
-        // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        telemetry.addLine("Starting encoder drive");
-        encoderDrive(DRIVE_SPEED,  50,  50, 10);
-        encoderDrive(DRIVE_SPEED,  24,  -24, 10); //turn 180 degrees
-        aresBot.markerRelease.setPosition(0.13725490196);
+        encoderDrive(DRIVE_SPEED,  -15,  -15, 10);
+        aresBot.turn(-90, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        encoderDrive(DRIVE_SPEED, -33, -33, 10);
+        aresBot.turn(-60, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        encoderDrive(DRIVE_SPEED,  -5,  -5, 10);
+        aresBot.turn(-90, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        encoderDrive(DRIVE_SPEED,  -50,  -50, 10);
+        aresBot.turn(-90, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        //aresBot.markerRelease.setPosition(0.13725490196);
         sleep(1000);
-        aresBot.markerRelease.setPosition(1);
-        encoderDrive(TURN_SPEED,   5, -5, 10);
-        encoderDrive(1, 96, 96, 10);
-
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
+        //aresBot.markerRelease.setPosition(1);
+        encoderDrive(1,  -100,  -100, 10);
     }
 
     /*

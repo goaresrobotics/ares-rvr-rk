@@ -61,8 +61,6 @@ public class crater1 extends LinearOpMode {
         sleep(1000);
         //aresBot.markerRelease.setPosition(1);
         encoderDrive(1,  -87,  -87, 10);
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
     }
 
     /*
