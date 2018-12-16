@@ -55,14 +55,12 @@ public class crater4 extends LinearOpMode {
         aresBot.turn(90, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
         encoderDrive(DRIVE_SPEED, -25, -25, 10);
         aresBot.turn(60, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
-        encoderDrive(DRIVE_SPEED,  -60,  -60, 10);
-        aresBot.turn(180, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        encoderDrive(DRIVE_SPEED,  -72,  -72, 10);
+        aresBot.turn(90, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
         //aresBot.markerRelease.setPosition(0.13725490196);
         sleep(1000);
         //aresBot.markerRelease.setPosition(1);
         encoderDrive(1,  -87,  -87, 10);
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
     }
 
     /*

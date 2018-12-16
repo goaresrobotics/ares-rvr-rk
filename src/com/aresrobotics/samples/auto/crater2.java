@@ -51,18 +51,20 @@ public class crater2 extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  -23,  -23, 10);
+        encoderDrive(DRIVE_SPEED,  -13,  -13, 10);
         aresBot.turn(90, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
-        encoderDrive(DRIVE_SPEED, -25, -25, 10);
-        aresBot.turn(60, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
-        encoderDrive(DRIVE_SPEED,  -60,  -60, 10);
-        aresBot.turn(180, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        encoderDrive(DRIVE_SPEED, -31, -31, 10);
+        aresBot.turn(90, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        encoderDrive(DRIVE_SPEED,  -72,  -72, 10);
+        aresBot.turn(30, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        encoderDrive(1,  -44,  -44, 10);
+        aresBot.turn(45, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        encoderDrive(1,  -5,  -5, 10);
+        aresBot.turn(45, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
         //aresBot.markerRelease.setPosition(0.13725490196);
         sleep(1000);
         //aresBot.markerRelease.setPosition(1);
-        encoderDrive(1,  -87,  -87, 10);
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
+        encoderDrive(1,  -82,  -82, 10);
     }
 
     /*
