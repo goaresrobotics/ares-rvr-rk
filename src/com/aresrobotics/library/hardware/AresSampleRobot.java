@@ -6,10 +6,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.hardware.bosch.BNO055IMU;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 public class AresSampleRobot
 {
@@ -81,8 +79,7 @@ public class AresSampleRobot
             left = 1;
             right = -1;
         }
-        while (orientation.firstAngle<angle && !isStopRequested)
-        {
+        while (orientation.firstAngle<angle && isStopRequested){
             motorLeft.setPower(left);
             motorLeftBack.setPower(left);
             motorRight.setPower(right);
