@@ -13,13 +13,13 @@ public class crater3 extends Auto {
     public void run() {
 
         encoderDrive(DRIVE_SPEED,  -13,  -13, 10);
-        aresBot.turn(90, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        turn(90, 0.5, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
         encoderDrive(DRIVE_SPEED, -31, -31, 10);
-        aresBot.turn(90, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        turn(90, 0.5, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
         encoderDrive(DRIVE_SPEED,  -72,  -72, 10);
-        aresBot.turn(30, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        turn(30, 0.5, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
         encoderDrive(DRIVE_SPEED,  -44,  -44, 10);
-        aresBot.turn(180, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        turn(180, 0.5, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
         //aresBot.markerRelease.setPosition(0.13725490196);
         sleep(1000);
         //aresBot.markerRelease.setPosition(1);

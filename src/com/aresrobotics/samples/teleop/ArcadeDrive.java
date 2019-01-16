@@ -1,7 +1,5 @@
 package com.aresrobotics.samples.teleop;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -11,8 +9,10 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 @TeleOp(name = "Drive")
 public class ArcadeDrive extends OpMode {
 
-    private DcMotor motorRight;
     private DcMotor motorLeft;
+    private DcMotor motorLeftBack;
+    private DcMotor motorRight;
+    private DcMotor motorRightBack;
     private DcMotor spinner;
     private DcMotor slides;
     private Servo intake;
@@ -23,8 +23,6 @@ public class ArcadeDrive extends OpMode {
     static final int    CYCLE_MS    =   50;
     static final double MAX_POS     =  1.0;
     static final double MIN_POS     =  0.173;
-
-    int bumperValue =0;
 
     double  position = MAX_POS;
 
@@ -41,7 +39,9 @@ public class ArcadeDrive extends OpMode {
     public void init() {
 
         motorLeft = hardwareMap.dcMotor.get("motorLeft");
+        motorLeftBack = hardwareMap.dcMotor.get("motorLeftBack");
         motorRight = hardwareMap.dcMotor.get("motorRight");
+        motorRightBack = hardwareMap.dcMotor.get("motorRightBack");
         spinner = hardwareMap.dcMotor.get("spinner");
         slides = hardwareMap.dcMotor.get("slides");
         intake = hardwareMap.servo.get("intake");
@@ -56,33 +56,18 @@ public class ArcadeDrive extends OpMode {
     @Override
     public void loop() {
 
-        if(gamepad1.left_bumper)
-        {
+        double h = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
+        double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+        double rightX = gamepad1.right_stick_x;
+        final double v1 = h * Math.cos(robotAngle) + rightX;
+        final double v2 = h * Math.sin(robotAngle) - rightX;
+        final double v3 = h * Math.sin(robotAngle) + rightX;
+        final double v4 = h * Math.cos(robotAngle) - rightX;
 
-            bumperValue = bumperValue+1;
-
-        }
-
-        double v = gamepad1.right_stick_x;
-        double omega = -gamepad1.left_stick_y;
-
-        double right = 0.0;
-        double left = 0.0;
-
-        if(bumperValue%2 == 0)
-        {
-            right = v - omega;
-            left = v + omega;
-        }
-
-        if(bumperValue%2 == 1)
-        {
-            right = (v - omega)/2;
-            left = (v + omega)/2;
-        }
-
-        motorRight.setPower(right);
-        motorLeft.setPower(left);
+        motorLeft.setPower(v1/1.5);
+        motorRight.setPower(-v2/1.5);
+        motorLeftBack.setPower(v3/1.5);
+        motorRightBack.setPower(-v4/1.5);
 
         slides.setPower(-gamepad2.left_stick_y/2);
 

@@ -3,8 +3,11 @@ package com.aresrobotics.samples.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 
 @TeleOp(name = "Sample: TeleOp Test", group = "Samples")
+@Disabled
 public class SampleJoystickTeleop extends OpMode {
 
     private DcMotor motorLeft;

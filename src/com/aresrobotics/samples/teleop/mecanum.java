@@ -3,24 +3,25 @@ package com.aresrobotics.samples.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @TeleOp(name = "mecanum")
 public class mecanum extends OpMode {
 
 
-    private DcMotor leftFront;
-    private DcMotor leftRear;
-    private DcMotor rightFront;
-    private DcMotor rightRear;
+    private DcMotor motorLeft;
+    private DcMotor motorLeftBack;
+    private DcMotor motorRight;
+    private DcMotor motorRightBack;
 
     @Override
     public void init()
     {
 
-        leftFront = hardwareMap.dcMotor.get("leftFront");
-        leftRear = hardwareMap.dcMotor.get("leftRear");
-        rightFront = hardwareMap.dcMotor.get("rightFront");
-        rightRear = hardwareMap.dcMotor.get("rightRear");
+        motorLeft = hardwareMap.dcMotor.get("motorLeft");
+        motorLeftBack = hardwareMap.dcMotor.get("motorLeftBack");
+        motorRight = hardwareMap.dcMotor.get("motorRight");
+        motorRightBack = hardwareMap.dcMotor.get("motorRightBack");
 
     }
 
@@ -36,11 +37,12 @@ public class mecanum extends OpMode {
         final double v3 = h * Math.sin(robotAngle) + rightX;
         final double v4 = h * Math.cos(robotAngle) - rightX;
 
-        leftFront.setPower(v1/1.5);
-        rightFront.setPower(-v2/1.5);
-        leftRear.setPower(v3/1.5);
-        rightRear.setPower(-v4/1.5);
-
+        motorLeft.setPower(v1);
+        motorRight.setPower(-v2);
+        motorLeftBack.setPower(v3);
+        motorRightBack.setPower(-v4);
+/*
+ */
     }
 
 }

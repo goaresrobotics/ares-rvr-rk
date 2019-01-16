@@ -7,8 +7,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.aresrobotics.library.hardware.AresSampleRobot;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 
 @TeleOp(name = "Test: Slides")
+@Disabled
 public class slideTest extends OpMode{
 
     ///DigitalChannel touchMe;

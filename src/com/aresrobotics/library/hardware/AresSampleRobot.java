@@ -1,6 +1,7 @@
 package com.aresrobotics.library.hardware;
 
 import com.aresrobotics.samples.auto.Auto;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -15,6 +16,7 @@ public class AresSampleRobot
     public DcMotor  motorRight;
     public DcMotor  motorRightBack;
     public DcMotor  motorLeftBack;
+    private volatile boolean stopRequested = false;
 
 //    public Servo markerRelease;
 //    public Servo intake;
@@ -30,8 +32,10 @@ public class AresSampleRobot
         this.auto = auto;
     }
 
+
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
+        this.stopRequested   = false;
         motorLeft  = hwMap.get(DcMotor.class, "motorLeft");
         motorRight = hwMap.get(DcMotor.class, "motorRight");
         motorLeftBack  = hwMap.get(DcMotor.class, "motorLeftBack");
@@ -56,44 +60,8 @@ public class AresSampleRobot
         motorLeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorRightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-
         }
 
-    public void turn(double angle, DcMotor motorLeft, DcMotor motorRight, DcMotor motorLeftBack, DcMotor motorRightBack)
-    {
-        BNO055IMU imu = hwMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        Orientation orientation = imu.getAngularOrientation();
-        parameters.angleUnit = (BNO055IMU.AngleUnit.DEGREES);
-        imu.initialize(parameters);
-        double left;
-        double right;
-        double currentAngle;
-        if(orientation.firstAngle-180.001>0)
-        {
-            left = -1;
-            right = 1;
-        }
-        else
-        {
-            left = 1;
-            right = -1;
-        }
-        while (orientation.firstAngle<angle && isStopRequested){
-            motorLeft.setPower(left);
-            motorLeftBack.setPower(left);
-            motorRight.setPower(right);
-            motorRightBack.setPower(right);
-            orientation = imu.getAngularOrientation();
-            telemetry.addData("heading", orientation.firstAngle);
-            telemetry.update();
-        }
-        motorLeft.setPower(0);
-        motorLeftBack.setPower(0);
-        motorRight.setPower(0);
-        motorRightBack.setPower(0);
-
-    }
 
 
 }

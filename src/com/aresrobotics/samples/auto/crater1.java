@@ -11,11 +11,13 @@ public class crater1 extends Auto {
             // Step through each leg of the path,
             // Note: Reverse movement is obtained by setting a negative distance (not speed)
             encoderDrive(DRIVE_SPEED, 23, 23, 10);
-            aresBot.turn(90, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+            turn(90, 0.5,aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
             encoderDrive(DRIVE_SPEED, 25, 25, 10);
-            aresBot.turn(60, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+            turn(60, 0.5, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+            telemetry.addLine("Before");
             encoderDrive(DRIVE_SPEED, 60, 60, 10);
-            aresBot.turn(180, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+            telemetry.addLine("After");
+            turn(179.5, 0.5, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
             //aresBot.markerRelease.setPosition(0.13725490196);
             sleep(1000);
             //aresBot.markerRelease.setPosition(1);

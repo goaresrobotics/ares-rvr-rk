@@ -1,48 +1,46 @@
 package com.aresrobotics.samples.auto;
 
 import com.aresrobotics.library.hardware.AresSampleRobot;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public abstract class Auto extends LinearOpMode{
-    AresSampleRobot aresBot   = new AresSampleRobot(telemetry, this);   // Use defined ARES hardware
+    AresSampleRobot aresBot   = new AresSampleRobot(telemetry, this);
     private ElapsedTime runtime = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_REV    = 560 ;    // eg: REV Core Hex
-    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP - 1 : 1 for my bot
-    static final double     WHEEL_DIAMETER_INCHES   = 4 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double     COUNTS_PER_MOTOR_REV    = 560 ;
+    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;
+    static final double     WHEEL_DIAMETER_INCHES   = 4 ;
+    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.6;
 
     public void runOpMode() {
 
-        /*
-         * Initialize the drive system variables.
-         * See the init() method in the AresSampleRobot.java class file
-         */
         aresBot.init(hardwareMap);
 
-        // Send telemetry message to signify the bot is waiting for the operator press;
-        telemetry.addData("Status", "Resetting Encoders");    //
+        telemetry.addData("Status", "Resetting Encoders");
         telemetry.update();
 
         aresBot.motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         aresBot.motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        aresBot.motorLeftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        aresBot.motorRightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         aresBot.motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         aresBot.motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        aresBot.motorLeftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        aresBot.motorRightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
                 aresBot.motorLeft.getCurrentPosition(),
                 aresBot.motorRight.getCurrentPosition());
         telemetry.update();
 
-        // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
             run();
@@ -56,36 +54,35 @@ public abstract class Auto extends LinearOpMode{
                              double timeoutS) {
         int newLeftTarget;
         int newRightTarget;
+        int newLeftBackTarget;
+        int newRightBackTarget;
 
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
+        if (opModeIsActive() && !isStopRequested()) {
 
-            // Determine new target position, and pass to motor controller
             newLeftTarget = aresBot.motorLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
             newRightTarget = aresBot.motorRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newLeftBackTarget = aresBot.motorLeftBack.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+            newRightBackTarget = aresBot.motorRightBack.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
             aresBot.motorLeft.setTargetPosition(newLeftTarget);
             aresBot.motorRight.setTargetPosition(newRightTarget);
+            aresBot.motorLeftBack.setTargetPosition(newLeftBackTarget);
+            aresBot.motorRightBack.setTargetPosition(newRightBackTarget);
 
-            // Turn On RUN_TO_POSITION
             aresBot.motorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             aresBot.motorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            aresBot.motorLeftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            aresBot.motorRightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            // reset the timeout time and start motion.
             runtime.reset();
             aresBot.motorLeft.setPower(Math.abs(speed));
             aresBot.motorRight.setPower(Math.abs(speed));
+            aresBot.motorRightBack.setPower(Math.abs(speed));
+            aresBot.motorLeftBack.setPower(Math.abs(speed));
 
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (!isStopRequested() &&
                     (runtime.seconds() < timeoutS) &&
                     (aresBot.motorLeft.isBusy() && aresBot.motorRight.isBusy())) {
 
-                // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
                 telemetry.addData("Path2",  "Running at %7d :%7d",
                         aresBot.motorLeft.getCurrentPosition(),
@@ -93,16 +90,49 @@ public abstract class Auto extends LinearOpMode{
                 telemetry.update();
             }
 
-            // Stop all motion;
             aresBot.motorLeft.setPower(0);
             aresBot.motorRight.setPower(0);
+            aresBot.motorRightBack.setPower(0);
+            aresBot.motorLeftBack.setPower(0);
 
-            // Turn off RUN_TO_POSITION
             aresBot.motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            aresBot.motorLeftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             aresBot.motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            aresBot.motorRightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            //  sleep(250);   // optional pause after each move
         }
     }
+    public void turn(double angle, double turnspeed, DcMotor motorLeft, DcMotor motorRight, DcMotor motorLeftBack, DcMotor motorRightBack)
+    {
+        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        Orientation orientation = imu.getAngularOrientation();
+        parameters.angleUnit = (BNO055IMU.AngleUnit.DEGREES);
+        imu.initialize(parameters);
+
+
+        double left;
+        double right;
+
+        left = turnspeed;
+        right = -turnspeed;
+
+        while (Math.abs(orientation.firstAngle)<angle && !isStopRequested()){
+            motorLeft.setPower(left);
+            motorLeftBack.setPower(left);
+            motorRight.setPower(right);
+            motorRightBack.setPower(right);
+            orientation = imu.getAngularOrientation();
+            telemetry.addData("Gyro", orientation.firstAngle);
+            telemetry.update();
+        }
+
+        motorLeft.setPower(0);
+        motorLeftBack.setPower(0);
+        motorRight.setPower(0);
+        motorRightBack.setPower(0);
+
+    }
+
 
 }

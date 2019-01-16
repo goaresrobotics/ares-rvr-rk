@@ -4,10 +4,13 @@ import com.aresrobotics.library.hardware.MaxSonarEZ1UltrasonicSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp (name="UltraSonic Test")
+@Disabled
 public class UltraSonicTest extends LinearOpMode {
 
 private DistanceUnit unit;
