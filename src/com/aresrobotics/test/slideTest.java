@@ -11,20 +11,20 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 
 @TeleOp(name = "Test: Slides")
-@Disabled
 public class slideTest extends OpMode{
 
     ///DigitalChannel touchMe;
     //DigitalChannel touchMeToo;
 
-    private DcMotor slides;
+    private DcMotor lift;
+    private DcMotor lift2;
 
     @Override
     public void init()
     {
 
-       slides = hardwareMap.dcMotor.get("slides");
-
+        lift = hardwareMap.dcMotor.get("lift");
+        lift2 = hardwareMap.dcMotor.get("lift2");
         //touchMe.setMode(DigitalChannel.Mode.INPUT);
         //touchMeToo.setMode(DigitalChannel.Mode.INPUT);
 
@@ -32,10 +32,25 @@ public class slideTest extends OpMode{
     @Override
     public void loop()
     {
+        double liftNumber;
+        if (gamepad2.left_trigger > 0)
+        {
+            liftNumber = 0.5;
+        }
+        else
+        {
+            if (gamepad2.right_trigger > 0)
+            {
+                liftNumber = -0.5;
+            }
+            else
+            {
+                liftNumber = 0;
+            }
+        }
 
-        double intakeSlide = gamepad2.left_stick_y;
-
-        slides.setPower(-intakeSlide/5);
+        lift.setPower(liftNumber/5);
+        lift2.setPower(liftNumber/5);
         /*if (touchMe.getState() == true) {
             slides.setPower(-0.1); }
         else {

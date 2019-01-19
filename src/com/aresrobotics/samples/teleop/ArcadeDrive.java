@@ -15,16 +15,22 @@ public class ArcadeDrive extends OpMode {
     private DcMotor motorRightBack;
     private DcMotor spinner;
     private DcMotor slides;
+    private DcMotor lift;
+    private DcMotor lift2;
     private Servo intake;
     private Servo markerRelease;
+    private Servo ratchet;
     private DigitalChannel MLS;
+    /*private DigitalChannel MLS2;
+    private DigitalChannel MLSV;
+    private DigitalChannel MLSV2;*/
 
-    static final double INCREMENT   = 0.02;
-    static final int    CYCLE_MS    =   50;
-    static final double MAX_POS     =  1.0;
-    static final double MIN_POS     =  0.173;
+    static final double INCREMENT = 0.02;
+    static final int CYCLE_MS = 50;
+    static final double MAX_POS = 1.0;
+    static final double MIN_POS = 0.173;
 
-    double  position = MAX_POS;
+    double position = MAX_POS;
 
     private final void sleep(long milliseconds) {
         try {
@@ -44,58 +50,170 @@ public class ArcadeDrive extends OpMode {
         motorRightBack = hardwareMap.dcMotor.get("motorRightBack");
         spinner = hardwareMap.dcMotor.get("spinner");
         slides = hardwareMap.dcMotor.get("slides");
+        lift = hardwareMap.dcMotor.get("lift");
+        lift2 = hardwareMap.dcMotor.get("lift2");
         intake = hardwareMap.servo.get("intake");
         markerRelease = hardwareMap.servo.get("markerRelease");
+        ratchet = hardwareMap.servo.get("ratchet");
         MLS = hardwareMap.get(DigitalChannel.class, "MLS");
-        markerRelease.setPosition(1);
+        /*MLS2 = hardwareMap.get(DigitalChannel.class, "MLS2");
+        MLSV = hardwareMap.get(DigitalChannel.class, "MLSV");
+        MLSV2 = hardwareMap.get(DigitalChannel.class, "MLSV2");*/
+
+        markerRelease.setPosition(0.95);
         intake.setPosition(position);
+        ratchet.setPosition(60);
         MLS.setMode(DigitalChannel.Mode.INPUT);
+        /*MLS2.setMode(DigitalChannel.Mode.INPUT);
+        MLSV.setMode(DigitalChannel.Mode.INPUT);
+        MLSV2.setMode(DigitalChannel.Mode.INPUT);*/
 
     }
 
     @Override
     public void loop() {
 
-        double h = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
-        double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = gamepad1.right_stick_x;
-        final double v1 = h * Math.cos(robotAngle) + rightX;
-        final double v2 = h * Math.sin(robotAngle) - rightX;
-        final double v3 = h * Math.sin(robotAngle) + rightX;
-        final double v4 = h * Math.cos(robotAngle) - rightX;
+        //Mecanum
 
-        motorLeft.setPower(v1/1.5);
-        motorRight.setPower(-v2/1.5);
-        motorLeftBack.setPower(v3/1.5);
-        motorRightBack.setPower(-v4/1.5);
+        int counter = 0;
 
-        slides.setPower(-gamepad2.left_stick_y/2);
+        if (gamepad1.right_bumper) {
+            counter = counter + 1;
+        }
 
-        /*if (MLS.getState() == true) {
-            if ( > 0) }
+        if ((counter % 2) == 0) {
+            double h = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
+            double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+            double rightX = gamepad1.right_stick_x/2;
+            final double v1 = h * Math.cos(robotAngle) + rightX;
+            final double v2 = h * Math.sin(robotAngle) - rightX;
+            final double v3 = h * Math.sin(robotAngle) + rightX;
+            final double v4 = h * Math.cos(robotAngle) - rightX;
+
+
+            motorLeft.setPower(v1);
+            motorRight.setPower(-v2);
+            motorLeftBack.setPower(v3);
+            motorRightBack.setPower(-v4);
+
+        }
+        if ((counter % 2) == 1) {
+            double h = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
+            double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+            double rightX = gamepad1.right_stick_x;
+            final double v1 = h * Math.cos(robotAngle) + rightX;
+            final double v2 = h * Math.sin(robotAngle) - rightX;
+            final double v3 = h * Math.sin(robotAngle) + rightX;
+            final double v4 = h * Math.cos(robotAngle) - rightX;
+
+
+            motorLeft.setPower(v1 / 3);
+            motorRight.setPower(-v2 / 3);
+            motorLeftBack.setPower(v3 / 3);
+            motorRightBack.setPower(-v4 / 3);
+
+        }
+
+
+        //Magnetic Limit Switches
+
+        double liftNumber;
+        double unstableNumber;
+        double ratchetNumber = 0.19607843137;
+
+        /*if (MLSV.getState() == true) {
+            liftNumber = 0.6;
+        } else {
+            if (MLSV2.getState() == true) {
+            liftNumber = -0.6;
+            }
             else {
-            slides.setPower(); }*/
-
-
-// Servo Code
-        if (gamepad2.left_bumper) {
-            position += INCREMENT ;
-            if (position >= MAX_POS ) {
-                position = MAX_POS;
+            if (gamepad2.left_trigger > 0) {
+                liftNumber = 0.5;
+            } else {
+                if (gamepad2.right_trigger > 0) {
+                    liftNumber = -0.5;
+                } else {
+                    liftNumber = 0;
+                }
             }
         }
-        if (gamepad2.right_bumper) {
-            position -= INCREMENT ;
-            if (position <= MIN_POS ) {
-                position = MIN_POS;
+    }
+        if (MLS.getState() == true) {
+            unstableNumber = 0.5;
+        } else { if (MLS2.getState() == true) {
+            unstableNumber = -0.5;
+        } else { unstableNumber = gamepad2.left_stick_y; }
+
+        }*/
+
+        unstableNumber = gamepad2.left_stick_y;
+
+        if (gamepad2.left_trigger > 0) {
+            liftNumber = 0.5;
+        } else {
+            if (gamepad2.right_trigger > 0) {
+                liftNumber = -0.5;
+            } else {
+                liftNumber = 0;
             }
         }
+            slides.setPower(-unstableNumber / 2);
+
+            lift.setPower(liftNumber);
+            lift2.setPower(liftNumber);
+
+            if (MLS.getState() == true) {
+
+            }
+
+            //Lift Mechanism
+
+
+            // Servo
+
+                boolean dad = false;
+                boolean dad2 = true;
+            if (gamepad2.dpad_up == true && dad == false) {
+                dad2 = dad;
+                dad = true;
+            } else {
+                if (gamepad2.dpad_up == true && dad == true)
+                dad2 = dad;
+                dad = false;
+            }
+
+
+            if (dad2 == false) {
+                ratchetNumber = 0.196;
+            } else {
+                if (dad2 = true) {
+                    ratchetNumber = 0.960;
+                }
+            }
+
+
+            ratchet.setPosition(ratchetNumber);
+
+            if (gamepad2.left_bumper) {
+                position += INCREMENT;
+                if (position >= MAX_POS) {
+                    position = MAX_POS;
+                }
+            }
+            if (gamepad2.right_bumper) {
+                position -= INCREMENT;
+                if (position <= MIN_POS) {
+                    position = MIN_POS;
+                }
+            }
 
             intake.setPosition(position);
             sleep(CYCLE_MS);
 
-        spinner.setPower(gamepad2.right_stick_y);
+            spinner.setPower(gamepad2.right_stick_y);
 
-        }
+
     }
+}
 

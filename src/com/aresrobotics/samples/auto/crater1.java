@@ -14,13 +14,11 @@ public class crater1 extends Auto {
             turn(90, 0.5,aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
             encoderDrive(DRIVE_SPEED, 25, 25, 10);
             turn(60, 0.5, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
-            telemetry.addLine("Before");
             encoderDrive(DRIVE_SPEED, 60, 60, 10);
-            telemetry.addLine("After");
-            turn(179.5, 0.5, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
             //aresBot.markerRelease.setPosition(0.13725490196);
             sleep(1000);
             //aresBot.markerRelease.setPosition(1);
+            turn(179.5, 0.5, aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
             encoderDrive(1, 87, 87, 10);
     }
 
