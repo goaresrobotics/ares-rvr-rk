@@ -18,8 +18,8 @@ public class AresSampleRobot
     public DcMotor  motorLeftBack;
     private volatile boolean stopRequested = false;
 
-//    public Servo markerRelease;
-//    public Servo intake;
+    public Servo markerRelease;
+    public Servo intake;
 
     HardwareMap hwMap           =  null;
     Telemetry telemetry;
@@ -40,15 +40,15 @@ public class AresSampleRobot
         motorRight = hwMap.get(DcMotor.class, "motorRight");
         motorLeftBack  = hwMap.get(DcMotor.class, "motorLeftBack");
         motorRightBack  = hwMap.get(DcMotor.class, "motorRightBack");
-//        markerRelease = hwMap.get(Servo.class, "markerRelease");
-//        intake = hwMap.get(Servo.class, "intake");
+        markerRelease = hwMap.get(Servo.class, "markerRelease");
+        intake = hwMap.get(Servo.class, "intake");
         motorLeft.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         motorRightBack.setDirection(DcMotor.Direction.FORWARD);
         motorLeftBack.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         motorRight.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
 
-//        intake.setPosition(1);
-//        markerRelease.setPosition(1);
+        intake.setPosition(1);
+        markerRelease.setPosition(0.96078431372);
         motorLeft.setPower(0);
         motorRight.setPower(0);
         motorLeftBack.setPower(0);

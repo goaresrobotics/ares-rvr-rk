@@ -8,14 +8,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public abstract class Auto extends LinearOpMode{
-    AresSampleRobot aresBot   = new AresSampleRobot(telemetry, this);
+    public  AresSampleRobot aresBot   = new AresSampleRobot(telemetry, this);
     private ElapsedTime runtime = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_REV    = 560 ;
-    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;
-    static final double     WHEEL_DIAMETER_INCHES   = 4 ;
+    static final double     COUNTS_PER_MOTOR_REV    = 560;
+    static final double     DRIVE_GEAR_REDUCTION    = -2.0;
+    static final double     WHEEL_DIAMETER_INCHES   = 4;
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.6;
+    static final double     DRIVE_SPEED             = -0.6;
 
     public void runOpMode() {
 
@@ -115,7 +115,7 @@ public abstract class Auto extends LinearOpMode{
         left = turnspeed;
         right = -turnspeed;
 
-        while (Math.abs(orientation.firstAngle)<angle && !isStopRequested()){
+        while (angle>Math.abs(orientation.firstAngle) && !isStopRequested()){
             motorLeft.setPower(left);
             motorLeftBack.setPower(left);
             motorRight.setPower(right);
@@ -124,7 +124,6 @@ public abstract class Auto extends LinearOpMode{
             telemetry.addData("Gyro", orientation.firstAngle);
             telemetry.update();
         }
-
         motorLeft.setPower(0);
         motorLeftBack.setPower(0);
         motorRight.setPower(0);

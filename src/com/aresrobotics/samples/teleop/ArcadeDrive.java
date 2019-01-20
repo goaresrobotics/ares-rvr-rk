@@ -9,6 +9,9 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 @TeleOp(name = "Drive")
 public class ArcadeDrive extends OpMode {
 
+    private boolean padState;
+    private boolean counter;
+
     private DcMotor motorLeft;
     private DcMotor motorLeftBack;
     private DcMotor motorRight;
@@ -75,16 +78,20 @@ public class ArcadeDrive extends OpMode {
 
         //Mecanum
 
-        int counter = 0;
 
-        if (gamepad1.right_bumper) {
-            counter = counter + 1;
+
+        if (gamepad1.right_bumper == true) {
+                counter = true;
+        } else {
+            if (gamepad1.left_bumper == true) {
+                counter = false;
+            }
         }
 
-        if ((counter % 2) == 0) {
+        if (counter == false) {
             double h = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
             double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-            double rightX = gamepad1.right_stick_x/2;
+            double rightX = gamepad1.right_stick_x;
             final double v1 = h * Math.cos(robotAngle) + rightX;
             final double v2 = h * Math.sin(robotAngle) - rightX;
             final double v3 = h * Math.sin(robotAngle) + rightX;
@@ -97,7 +104,7 @@ public class ArcadeDrive extends OpMode {
             motorRightBack.setPower(-v4);
 
         }
-        if ((counter % 2) == 1) {
+        if (counter == true) {
             double h = Math.hypot(gamepad1.left_stick_x, -gamepad1.left_stick_y);
             double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
             double rightX = gamepad1.right_stick_x;
@@ -158,7 +165,7 @@ public class ArcadeDrive extends OpMode {
                 liftNumber = 0;
             }
         }
-            slides.setPower(-unstableNumber / 2);
+            slides.setPower(unstableNumber / 2);
 
             lift.setPower(liftNumber);
             lift2.setPower(liftNumber);
@@ -172,7 +179,7 @@ public class ArcadeDrive extends OpMode {
 
             // Servo
 
-                boolean dad = false;
+                /*boolean dad = false;
                 boolean dad2 = true;
             if (gamepad2.dpad_up == true && dad == false) {
                 dad2 = dad;
@@ -191,7 +198,23 @@ public class ArcadeDrive extends OpMode {
                     ratchetNumber = 0.960;
                 }
             }
+*/
 
+                if(gamepad2.dpad_up == true){
+                    padState = true;
+                } else {
+                    if(gamepad2.dpad_down == true){
+                        padState = false;
+                    }
+                }
+
+                if(padState == true){
+                    ratchetNumber = 0.169;
+                } else {
+                    if (padState == false){
+                        ratchetNumber = 0.980;
+                    }
+                }
 
             ratchet.setPosition(ratchetNumber);
 

@@ -9,17 +9,15 @@ public class depot1 extends Auto {
     public void run() {
 
         telemetry.addLine("Starting encoder drive");
-        encoderDrive(DRIVE_SPEED,  25,  25, 10);
-        turn(90,0.5,  aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
-        encoderDrive(DRIVE_SPEED, 33, 33, 10);
-        turn(60,0.5,  aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
-        encoderDrive(DRIVE_SPEED,  5,  5, 10);
-        turn(90,0.5,  aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
-        encoderDrive(DRIVE_SPEED,  50,  50, 10);
-        turn(90,0.5,  aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
-        //aresBot.markerRelease.setPosition(0.13725490196);
-        //sleep(1000);
-        //aresBot.markerRelease.setPosition(1);
-        encoderDrive(1,  -100,  -100, 10);
+        encoderDrive(DRIVE_SPEED,  57,  57, 10);
+        aresBot.markerRelease.setPosition(0.19607843137);
+        sleep(1000);
+        aresBot.markerRelease.setPosition(0.96078431372);
+        //turn(90,0.5,  aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+        encoderDrive(DRIVE_SPEED, ((77*3) + 5)/8, -(77*3)/8, 10);
+        encoderDrive(1,90,90,10);
+        //turn(90,0.5,  aresBot.motorLeft, aresBot.motorRight, aresBot.motorLeftBack, aresBot.motorRightBack);
+
+        //encoderDrive(1,  -100,  -100, 10);
     }
 }
