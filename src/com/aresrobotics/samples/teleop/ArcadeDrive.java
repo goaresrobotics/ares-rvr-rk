@@ -11,6 +11,8 @@ public class ArcadeDrive extends OpMode {
 
     private boolean padState;
     private boolean counter;
+    private boolean reverse;
+    private double neg;
 
     private DcMotor motorLeft;
     private DcMotor motorLeftBack;
@@ -65,12 +67,14 @@ public class ArcadeDrive extends OpMode {
 
         markerRelease.setPosition(0.95);
         intake.setPosition(position);
-        ratchet.setPosition(60);
+        ratchet.setPosition(0.5);
         MLS.setMode(DigitalChannel.Mode.INPUT);
         /*MLS2.setMode(DigitalChannel.Mode.INPUT);
         MLSV.setMode(DigitalChannel.Mode.INPUT);
         MLSV2.setMode(DigitalChannel.Mode.INPUT);*/
 
+        reverse = false;
+        neg = 1;
     }
 
     @Override
@@ -78,6 +82,20 @@ public class ArcadeDrive extends OpMode {
 
         //Mecanum
 
+        if(gamepad1.right_trigger>0.8) {
+            reverse = true;
+        } else {
+            if (gamepad1.left_trigger>0.8)  {
+                reverse = false;
+            }
+        }
+            if(reverse = true) {
+            neg = -1;
+            } else {
+            if(reverse = false) {
+                neg = 1;
+                }
+            }
 
 
         if (gamepad1.right_bumper == true) {
@@ -98,10 +116,10 @@ public class ArcadeDrive extends OpMode {
             final double v4 = h * Math.cos(robotAngle) - rightX;
 
 
-            motorLeft.setPower(v1);
-            motorRight.setPower(-v2);
-            motorLeftBack.setPower(v3);
-            motorRightBack.setPower(-v4);
+            motorLeft.setPower((neg)*v1);
+            motorRight.setPower((neg)*-v2);
+            motorLeftBack.setPower((neg)*v3);
+            motorRightBack.setPower((neg)*-v4);
 
         }
         if (counter == true) {
@@ -114,10 +132,10 @@ public class ArcadeDrive extends OpMode {
             final double v4 = h * Math.cos(robotAngle) - rightX;
 
 
-            motorLeft.setPower(v1 / 3);
-            motorRight.setPower(-v2 / 3);
-            motorLeftBack.setPower(v3 / 3);
-            motorRightBack.setPower(-v4 / 3);
+            motorLeft.setPower((neg)*v1 / 3);
+            motorRight.setPower((neg)*-v2 / 3);
+            motorLeftBack.setPower((neg)*v3 / 3);
+            motorRightBack.setPower((neg)*-v4 / 3);
 
         }
 
@@ -126,7 +144,7 @@ public class ArcadeDrive extends OpMode {
 
         double liftNumber;
         double unstableNumber;
-        double ratchetNumber = 0.19607843137;
+        double ratchetNumber = 0.710;
 
         /*if (MLSV.getState() == true) {
             liftNumber = 0.6;
@@ -209,10 +227,10 @@ public class ArcadeDrive extends OpMode {
                 }
 
                 if(padState == true){
-                    ratchetNumber = 0.169;
+                    ratchetNumber = 0.05098039215;
                 } else {
                     if (padState == false){
-                        ratchetNumber = 0.980;
+                        ratchetNumber = 0.58823529411;
                     }
                 }
 

@@ -4,7 +4,11 @@ import com.aresrobotics.library.hardware.AresSampleRobot;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public abstract class Auto extends LinearOpMode{
@@ -23,6 +27,8 @@ public abstract class Auto extends LinearOpMode{
 
         telemetry.addData("Status", "Resetting Encoders");
         telemetry.update();
+
+
 
         aresBot.motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         aresBot.motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -131,5 +137,36 @@ public abstract class Auto extends LinearOpMode{
 
     }
 
+    public void deploy(DcMotor lift, DcMotor lift2, Servo ratchet)
+    {
+
+
+
+        Double liftSpeed;
+        Double ratchetPos;
+
+        ratchetPos = 0.98;
+        liftSpeed = -0.3;
+        ratchet.setPosition(ratchetPos);
+        lift.setPower(liftSpeed);
+        lift2.setPower(liftSpeed);
+        sleep(3000);
+        liftSpeed = 0.0;
+
+        sleep(500);
+
+        aresBot.motorLeftBack.setPower(0.5);
+        aresBot.motorLeft.setPower(-0.5);
+        aresBot.motorRight.setPower(0.5);
+        aresBot.motorRightBack.setPower(-0.5);
+
+        sleep(500);
+
+        aresBot.motorLeftBack.setPower(0.0);
+        aresBot.motorLeft.setPower(0.0);
+        aresBot.motorRight.setPower(0.0);
+        aresBot.motorRightBack.setPower(0.0);
+
+    }
 
 }
